@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .is-selected {
+      background-color: #eee;
+    }
+
+    .is-required {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>다양한 전시 정보</h1>
+    <hr>
+    <ul>
+      <li :id="exhibitionInfo.enTitle" :class="{ 'is-selected': exhibitionInfo.isSelected }">
+        <label for="selected">전시 선택</label>
+        <input type="checkbox" name="selected" id="selected" v-model="exhibitionInfo.isSelected">
+        <h3 v-text="exhibitionInfo.koTitle">한글 제목</h3>
+        <p v-html="exhibitionInfo.description">전시 정보 설명</p>
+        <hr>
+        <p v-text="exhibitionInfo.artMuseum">전시 위치</p>
+        <a :href="exhibitionInfo.museumURL">전시장 바로가기</a>
+        <hr>
+        <p>입장권 구매하기</p>
+        <div>
+          <span :class="{ 'is-required': exhibitionInfo.totalNum <= 0 }" >인원 수 : {{ exhibitionInfo.totalNum }} 명 </span>
+          <button :disabled="exhibitionInfo.totalNum <= 0" @click="decreaseNum">-</button>
+          <button :disabled="exhibitionInfo.totalNum >= 10" @click="increaseNum">+</button>
+        </div>
+        <p>총 입장료 : {{ exhibitionInfo.totalNum*exhibitionInfo.price }} 원</p>
+        <hr>
+      </li>
+    </ul>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({
+      setup() {
+        const exhibitionInfo = ref({
+          koTitle : '모네 인사이드',
+          enTitle : 'monet-inside',
+          artMuseum : '예술의 전당',
+          museumURL : 'https://www.sac.or.kr/',
+          description : '<p> &lt;모네 인사이드&gt; 는 빛의 화가 <b>클로드 모네</b>가 남긴 소중한 명작들을 현대적 감각으로 재해석해 음악과 함께 감상하는 미디어아트 전시입니다. </p>',
+          isSelected : false,
+          price : 1000,
+          totalNum : 0
+        })
+
+        const increaseNum = function() {
+          exhibitionInfo.value.totalNum += 1
+        }
+        const decreaseNum = function() {
+          exhibitionInfo.value.totalNum -= 1
+        }
+
+        return { 
+          exhibitionInfo,
+          increaseNum, 
+          decreaseNum,
+        }
+      }
+    })
+    app.mount('#app')
+  </script>
+</body>
+</html>
+
+
