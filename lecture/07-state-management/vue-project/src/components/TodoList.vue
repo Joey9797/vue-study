@@ -17,7 +17,6 @@
   import { useCounterStore } from '@/stores/counter.js'
 
   const store = useCounterStore()
-
 </script>
 
 <style scoped>
