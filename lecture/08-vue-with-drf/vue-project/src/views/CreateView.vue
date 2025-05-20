@@ -43,7 +43,8 @@
       }
     })
       .then(res => {
-        // DetailView로 리다이렉트
+        console.log(res)
+        console.log(res.data)
         router.push({ name: 'DetailView', params: { id: res.data.id }})
       })
       .catch(err => console.log(err))
